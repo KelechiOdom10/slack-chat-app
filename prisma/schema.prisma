@@ -1,0 +1,116 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Status {
+  online
+  away
+  busy
+  offline
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  fullName      String
+  username      String   @unique
+  avatar        String?
+  status        Status   @default(offline)
+  statusMessage String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt()
+
+  teams    TeamMember[]
+  messages Message[]
+  channels ChannelMember[]
+
+  @@map("users")
+}
+
+model Team {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt()
+
+  members  TeamMember[]
+  channels Channel[]
+
+  @@map("teams")
+}
+
+enum MembershipType {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+model TeamMember {
+  membershipType MembershipType @default(MEMBER)
+  user           User           @relation(fields: [userId], references: [id])
+  userId         String
+  team           Team           @relation(fields: [teamId], references: [id])
+  teamId         String
+  createdAt      DateTime?      @default(now())
+
+  @@id([userId, teamId])
+  @@map("team_members")
+}
+
+enum ChannelType {
+  public
+  private
+  directMessage
+}
+
+model Channel {
+  id           String      @id @default(cuid())
+  name         String      @unique
+  topic        String?
+  description  String?
+  announcement String?
+  isVisible    Boolean     @default(true)
+  channelType  ChannelType @default(public)
+  team         Team        @relation(fields: [teamId], references: [id])
+  teamId       String
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt()
+
+  messsages Message[]
+  members   ChannelMember[]
+
+  @@map("channels")
+}
+
+model ChannelMember {
+  membershipType MembershipType @default(MEMBER)
+  user           User           @relation(fields: [userId], references: [id])
+  userId         String
+  channel        Channel        @relation(fields: [channelId], references: [id])
+  channelId      String
+  createdAt      DateTime?      @default(now())
+
+  @@id([userId, channelId])
+  @@map("channel_members")
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  text      String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  channel   Channel  @relation(fields: [channelId], references: [id])
+  channelId String
+  createdAt DateTime @default(now())
+
+  @@map("messages")
+}

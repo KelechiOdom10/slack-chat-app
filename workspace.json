@@ -2,6 +2,9 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
-    "api": "apps/api"
+    "api": "apps/api",
+    "api-resources-team": "libs/api/resources/team",
+    "api-resources-user": "libs/api/resources/user",
+    "api-shared-prisma": "libs/api/shared/prisma"
   }
 }

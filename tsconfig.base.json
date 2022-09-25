@@ -14,7 +14,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@slack-chat-app/api/resources/team": ["libs/api/resources/team/src/index.ts"],
+      "@slack-chat-app/api/resources/user": ["libs/api/resources/user/src/index.ts"],
+      "@slack-chat-app/api/shared/prisma": ["libs/api/shared/prisma/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
