@@ -9,14 +9,20 @@
   },
   "private": true,
   "dependencies": {
+    "@nestjs/apollo": "^10.1.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
+    "@nestjs/graphql": "^10.1.2",
     "@nestjs/platform-express": "^9.0.0",
+    "@prisma/client": "^4.3.1",
+    "apollo-server-express": "^3.10.2",
+    "graphql": "^16.6.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.5.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
     "@nrwl/cli": "14.7.8",
@@ -38,6 +44,7 @@
     "lint-staged": "^13.0.3",
     "nx": "14.7.8",
     "prettier": "^2.6.2",
+    "prisma": "^4.3.1",
     "ts-jest": "28.0.5",
     "ts-node": "10.9.1",
     "typescript": "~4.8.2"
@@ -52,5 +59,8 @@
       "npx prettier --write",
       "npx eslint --fix"
     ]
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }
