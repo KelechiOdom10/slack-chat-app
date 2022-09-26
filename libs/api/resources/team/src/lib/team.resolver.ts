@@ -1,23 +1,23 @@
-import { Resolver, Query, Mutation, Args, Int } from "@nestjs/graphql"
+import { Resolver, Query, Parent, Args, ID, ResolveProperty } from "@nestjs/graphql"
+import { TeamMember, Team } from "@slack-chat-app/api/shared/entities"
 import { TeamService } from "./team.service"
-import { Team } from "./entities/team.entity"
 
 @Resolver(() => Team)
 export class TeamResolver {
   constructor(private readonly teamService: TeamService) {}
 
-  @Query(() => [Team], { name: "team" })
-  findAll() {
-    return this.teamService.findAll()
+  @Query(() => [Team])
+  async teams() {
+    return this.teamService.getTeams({})
   }
 
-  @Query(() => Team, { name: "team" })
-  findOne(@Args("id", { type: () => Int }) id: number) {
-    return this.teamService.findOne(id)
+  @Query(() => Team)
+  async team(@Args("id", { type: () => ID }) id: string) {
+    return this.teamService.getTeam({ id })
   }
 
-  @Mutation(() => Team)
-  removeTeam(@Args("id", { type: () => Int }) id: number) {
-    return this.teamService.remove(id)
+  @ResolveProperty("members", () => [TeamMember])
+  async getTeamMembers(@Parent() { id }: Team) {
+    return this.teamService.getTeam({ id }).members()
   }
 }

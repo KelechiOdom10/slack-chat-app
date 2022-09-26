@@ -1,16 +1,15 @@
 import { Injectable } from "@nestjs/common"
+import { Prisma } from "@prisma/client"
+import { PrismaService } from "@slack-chat-app/api/shared/prisma"
 
 @Injectable()
 export class TeamService {
-  findAll() {
-    return `This action returns all team`
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
-  findOne(id: number) {
-    return `This action returns a #${id} team`
+  getTeam(where: Prisma.TeamWhereUniqueInput) {
+    return this.prismaService.team.findUnique({ where })
   }
-
-  remove(id: number) {
-    return `This action removes a #${id} team`
+  getTeams(params: { where?: Prisma.TeamWhereInput; orderBy?: Prisma.TeamOrderByWithRelationInput }) {
+    return this.prismaService.team.findMany(params)
   }
 }
