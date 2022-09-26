@@ -6,6 +6,7 @@ import { PrismaModule } from "@slack-chat-app/api/shared/prisma"
 import { join } from "path"
 import { UserModule } from "@slack-chat-app/api/resources/user"
 import { TeamModule } from "@slack-chat-app/api/resources/team"
+import { TeamMemberModule } from "@slack-chat-app/api/resources/team-member"
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { TeamModule } from "@slack-chat-app/api/resources/team"
     PrismaModule,
     UserModule,
     TeamModule,
+    TeamMemberModule,
   ],
   providers: [AppResolver],
 })

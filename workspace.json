@@ -4,7 +4,9 @@
   "projects": {
     "api": "apps/api",
     "api-resources-team": "libs/api/resources/team",
+    "api-resources-team-member": "libs/api/resources/team-member",
     "api-resources-user": "libs/api/resources/user",
+    "api-shared-entities": "libs/api/shared/entities",
     "api-shared-prisma": "libs/api/shared/prisma"
   }
 }
