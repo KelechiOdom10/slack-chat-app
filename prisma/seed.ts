@@ -1,4 +1,4 @@
-import { Channel, Prisma, PrismaClient, Team } from "@prisma/client"
+import { Channel, Prisma, PrismaClient, Status, Team } from "@prisma/client"
 import { faker } from "@faker-js/faker"
 
 const prisma = new PrismaClient()
@@ -12,7 +12,7 @@ async function main() {
   await prisma.user.deleteMany()
 
   let teams: Team[] = []
-  let channels: Channel[] = []
+  // let channels: Channel[] = []
 
   for (let index = 0; index < 5; index++) {
     const team = await prisma.team.create({
@@ -22,39 +22,41 @@ async function main() {
       },
     })
 
-    const channel = await prisma.channel.create({
-      data: {
-        name: faker.company.name(),
-        isVisible: faker.datatype.boolean(),
-        teamId: team.id,
-      },
-    })
+    // const channel = await prisma.channel.create({
+    //   data: {
+    //     name: faker.company.name(),
+    //     isVisible: faker.datatype.boolean(),
+    //     teamId: team.id,
+    //   },
+    // })
 
     teams.push(team)
-    channels.push(channel)
+    // channels.push(channel)
   }
 
   for (let index = 0; index < 20; index++) {
+    const data = {
+      email: faker.internet.email(),
+      fullName: faker.name.fullName(),
+      username: `${faker.name.middleName("female")}_${faker.datatype.number(12)}`,
+      statusMessage: faker.lorem.sentence(),
+      status: faker.helpers.arrayElement(Object.values(Status)),
+      avatar: faker.image.avatar(),
+    }
     const randomTeamId = faker.helpers.arrayElement(teams).id
-    const randomChannelId = faker.helpers.arrayElement(channels).id
+    // const randomChannelId = faker.helpers.arrayElement(channels).id
 
     const user = await prisma.user.create({
-      data: {
-        email: faker.internet.email(),
-        fullName: faker.name.fullName(),
-        username: `${faker.name.middleName("female")}_${faker.datatype.number(12)}`,
-        statusMessage: faker.lorem.sentence(),
-        avatar: faker.image.avatar(),
-      },
+      data,
     })
 
-    await prisma.message.create({
-      data: {
-        channelId: randomChannelId,
-        userId: user.id,
-        text: faker.lorem.sentence(),
-      },
-    })
+    // await prisma.message.create({
+    //   data: {
+    //     channelId: randomChannelId,
+    //     userId: user.id,
+    //     text: faker.lorem.sentence(),
+    //   },
+    // })
 
     await prisma.teamMember.create({
       data: {
@@ -63,12 +65,12 @@ async function main() {
       },
     })
 
-    await prisma.channelMember.create({
-      data: {
-        channelId: randomChannelId,
-        userId: user.id,
-      },
-    })
+    // await prisma.channelMember.create({
+    //   data: {
+    //     channelId: randomChannelId,
+    //     userId: user.id,
+    //   },
+    // })
   }
 }
 

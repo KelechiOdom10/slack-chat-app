@@ -2,16 +2,60 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type User {
+  id: ID!
+  email: String!
+  fullName: String!
+  username: String!
+  avatar: String
+  status: Status!
+  statusMessage: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  teams: [TeamMember!]!
+}
+
+"""User Status"""
+enum Status {
+  online
+  away
+  busy
+  offline
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type TeamMember {
+  id: ID!
+  membershipType: MembershipType!
+  user: User!
+  team: Team!
+  createdAt: DateTime!
+}
+
+enum MembershipType {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
 type Team {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id: ID!
+  name: String!
+  description: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  members: [TeamMember!]!
 }
 
 type Query {
   uptime: Float!
-  team(id: Int!): Team!
-}
-
-type Mutation {
-  removeTeam(id: Int!): Team!
+  users: [User!]!
+  user(id: ID!): User!
+  teams: [Team!]!
+  team(id: ID!): Team!
+  teamMembers(teamId: ID!): [TeamMember!]!
 }

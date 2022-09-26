@@ -16,7 +16,9 @@
     "baseUrl": ".",
     "paths": {
       "@slack-chat-app/api/resources/team": ["libs/api/resources/team/src/index.ts"],
+      "@slack-chat-app/api/resources/team-member": ["libs/api/resources/team-member/src/index.ts"],
       "@slack-chat-app/api/resources/user": ["libs/api/resources/user/src/index.ts"],
+      "@slack-chat-app/api/shared/entities": ["libs/api/shared/entities/src/index.ts"],
       "@slack-chat-app/api/shared/prisma": ["libs/api/shared/prisma/src/index.ts"]
     }
   },
