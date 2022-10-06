@@ -1,4 +1,4 @@
-import { Logger } from "@nestjs/common"
+import { Logger, ValidationPipe } from "@nestjs/common"
 import { NestFactory } from "@nestjs/core"
 import { PrismaService } from "@slack-chat-app/api/shared/prisma"
 
@@ -8,8 +8,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule)
   const port = process.env.PORT || 3333
 
-  const prismaService = app.get(PrismaService)
-  await prismaService.enableShutdownHooks(app)
+  // Validation
+  app.useGlobalPipes(new ValidationPipe())
+
+  // enable shutdown hook
+  const prismaService: PrismaService = app.get(PrismaService)
+  prismaService.enableShutdownHooks(app)
 
   await app.listen(port)
 
