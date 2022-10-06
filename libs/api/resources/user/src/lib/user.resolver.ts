@@ -1,4 +1,5 @@
-import { Args, ID, Parent, Query, ResolveProperty, Resolver } from "@nestjs/graphql"
+import { RegisterUserInput } from "./dto/registerUser"
+import { Args, ID, Mutation, Parent, Query, ResolveProperty, Resolver } from "@nestjs/graphql"
 import { TeamMember, User } from "@slack-chat-app/api/shared/entities"
 import { UserService } from "./user.service"
 
@@ -19,5 +20,10 @@ export class UserResolver {
   @ResolveProperty("teams", () => [TeamMember])
   async getTeams(@Parent() { id }: User) {
     return this.userService.getUser({ id }).teams()
+  }
+
+  @Mutation(() => User)
+  async createUser(@Args("input") input: RegisterUserInput) {
+    return this.userService.createUser(input)
   }
 }

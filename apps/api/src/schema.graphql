@@ -59,3 +59,41 @@ type Query {
   team(id: ID!): Team!
   teamMembers(teamId: ID!): [TeamMember!]!
 }
+
+type Mutation {
+  createUser(input: RegisterUserInput!): User!
+  createTeam(userId: ID!, input: CreateTeamInput!): Team!
+  updateTeam(input: UpdateTeamInput!): Team!
+  deleteTeam(teamId: ID!): Boolean!
+  addTeamMember(userId: String!, input: CreateTeamMemberInput!): TeamMember!
+  updateTeamMember(userId: String!, input: UpdateTeamMemberInput!): TeamMember!
+}
+
+input RegisterUserInput {
+  email: String!
+  fullName: String!
+  username: String!
+}
+
+input CreateTeamInput {
+  name: String!
+  description: String!
+}
+
+input UpdateTeamInput {
+  name: String
+  description: String
+  id: ID!
+}
+
+input CreateTeamMemberInput {
+  userId: ID!
+  teamId: ID!
+}
+
+input UpdateTeamMemberInput {
+  id: ID!
+  userId: ID!
+  teamId: ID!
+  membershipType: MembershipType!
+}

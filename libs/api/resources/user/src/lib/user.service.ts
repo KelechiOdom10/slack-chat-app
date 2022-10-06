@@ -1,3 +1,4 @@
+import { RegisterUserInput } from "./dto/registerUser"
 import { Injectable } from "@nestjs/common"
 import { Prisma } from "@prisma/client"
 import { PrismaService } from "@slack-chat-app/api/shared/prisma"
@@ -12,5 +13,9 @@ export class UserService {
 
   getUsers(params: { where?: Prisma.UserWhereInput; orderBy?: Prisma.UserOrderByWithRelationInput }) {
     return this.prismaService.user.findMany(params)
+  }
+
+  createUser(data: RegisterUserInput) {
+    return this.prismaService.user.create({ data })
   }
 }
